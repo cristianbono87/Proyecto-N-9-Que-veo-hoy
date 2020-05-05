@@ -1,33 +1,42 @@
-create database peliculas;
-use peliculas;
-create table pelicula(
-    id int auto_increment primary key,
-    titulo varchar(100) not null,
-    duracion int(5),
-    director varchar(400),
-    anio int(5),
-    fecha_lanzamiento date,
-    puntuacion int(2),
-    poster varchar(300),
-    trama varchar(700)
+DROP DATABASE peliculas;
+
+CREATE DATABASE peliculas;
+USE peliculas;
+
+CREATE TABLE `pelicula` (
+    `id` INT NOT NULL auto_increment, 
+    `titulo` VARCHAR(100) NOT NULL, 
+    `duracion` INT NOT NULL, 
+    `director` VARCHAR(400) NOT NULL, 
+    `anio` INT NOT NULL, 
+    `fecha_lanzamiento` DATE, 
+    `puntuacion` INT, 
+    `poster` VARCHAR(300), 
+    `trama` VARCHAR(700),
+    PRIMARY KEY(`id`)
 );
 
-create table genero(
-    id int auto_increment primary key,
-    nombre varchar(30)
+CREATE TABLE `genero`(
+    `id` INT NOT NULL auto_increment,
+    `nombre` VARCHAR(50) NOT NULL,
+    PRIMARY KEY (`id`)
 );
 
-alter table pelicula add column genero_id int not null foreign key references genero(id);
+ALTER TABLE `pelicula` ADD COLUMN `genero_id` INT;
 
-create table actor(
-    id int auto_increment primary key,
-    nombre varchar(70)
+ALTER TABLE `pelicula` ADD FOREIGN KEY (`genero_id`) REFERENCES `genero`(`id`);
+
+CREATE TABLE `actor`(
+    `id` INT NOT NULL auto_increment,
+    `nombre` VARCHAR(70) NOT NULL,
+    PRIMARY KEY(`id`)
 );
 
-create table actor_pelicula(
-    id int auto_increment primary key,
-    actor_id int,
-    pelicula_id int,
-    foreign key (actor_id) references actor(id),
-    foreign key (pelicula_id) references pelicula(id)
+CREATE TABLE `actor_pelicula`(
+    `id` INT NOT NULL auto_increment,
+    `actor_id` INT,
+    `pelicula_id` INT,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`actor_id`) REFERENCES `actor` (`id`),
+    FOREIGN KEY (`pelicula_id`) REFERENCES `pelicula` (`id`)
 );
